@@ -8,6 +8,10 @@ import {
   CreditCard,
   CalendarDays,
   LucideIcon,
+  ChevronRight,
+  ChevronLeft,
+  NotepadText,
+  Send,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -21,4 +25,8 @@ export const Icons = {
   messages: MessagesSquare,
   schedule: CalendarDays,
   arrowRight: ArrowRight,
+  right: ChevronRight,
+  left: ChevronLeft,
+  labs: NotepadText,
+  send: Send
 };

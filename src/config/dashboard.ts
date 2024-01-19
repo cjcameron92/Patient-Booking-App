@@ -14,7 +14,7 @@ export const dashboardConfig: DashboardConfig = {
         {
             title: "Schedule",
             icon: "schedule",
-            href: "/schedule"
+            href: "/dashboard/schedule"
         },
         {
             title: "Refferals",
@@ -22,12 +22,12 @@ export const dashboardConfig: DashboardConfig = {
             href: "/refferals"
         },
         {
-            title: "Payments",
+            title: "Percriptions",
             icon: "billing",
             href: "/billings"
         },
         {
-            title: "Messages",
+            title: "Chat",
             icon: "messages",
             href: "/messages"
         }
