@@ -1,113 +1,340 @@
-import Image from 'next/image'
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import React, { useState } from "react"; // Import useState
+
+import img from "../assets/quesitonair.png";
+import Image from "next/image";
+import Link from "next/link";
+
+interface AppointmentReason {
+  title: string;
+}
+
+const AppointmentReasons = [
+  {
+    title: "Suture removal",
+  },
+  {
+    title: "Nosebleed",
+  },
+  {
+    title: "Swallowing Difficulty",
+  },
+  {
+    title: "Ringing Ear (Tinnitus)",
+  },
+  {
+    title: "Hearin Loss",
+  },
+  {
+    title: "Groin Pain",
+  },
+  {
+    title: "Breastfeeding Problem / Baby Not feeding",
+  },
+];
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const [state, setState] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+  const handleAppointmentClick = () => {
+    setProgress(progress + 10); // Set progress to 20%
+    setState(state + 1); // Move to the next state
+  };
+
+  // Function to render different stages based on state
+  const renderStage = () => {
+    switch (state) {
+      case 0:
+        return AppointmentReasons.map((appointment, index) => (
+          <div
+            className="flex items-center mb-2 w-[350px]"
+            key={index}
+            onClick={handleAppointmentClick}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+            <div className="flex-grow bg-white p-4 rounded-lg shadow-sm flex items-center justify-between border hover:bg-gray-50 border-gray-300">
+              <div>
+                <p className="text-lg font-semibold">{appointment.title}</p>
+              </div>
+            </div>
+          </div>
+        ));
+      case 1:
+        return (
+          <>
+            <div className="flex-col items-center mb-2 w-[350px]">
+              <div className="mt-4">
+                <h2 className="font-bold">How often do you have nosebleeds?</h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">1 time per week</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r3" />
+                      <Label htmlFor="r2">2 time per week</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">3 time per week</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="4" id="r4" />
+                      <Label htmlFor="r4">4 time per week</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="5" id="r5" />
+                      <Label htmlFor="r5">More than 4 times per week</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="mt-4">
+                <h2 className="font-bold">
+                  How long have you been having nosebleeds for?
+                </h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">Days</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r3" />
+                      <Label htmlFor="r2">Months</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">Years</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="mt-4">
+                <h2 className="font-bold">When was your last nosebleed?</h2>
+                <div>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md border"
+                  />
+                </div>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="default" id="r1" />
+                      <Label htmlFor="r1">I don't remember exactly</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <h2 className="font-bold">
+                  How long do your nosebleeds usally last?
+                </h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">Less than 10 minutes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r3" />
+                      <Label htmlFor="r2">10 - 20 minutes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">More than 20 minutes</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <Button className="mt-16" onClick={handleAppointmentClick}>
+                Next Page
+              </Button>
+            </div>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <div className="flex-col items-center mb-2 w-[350px]">
+              <div className="mt-4">
+                <h2 className="font-bold">
+                  What do you think may be bringing on your nosebleeds?
+                </h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">Chronic sinus infections</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r2" />
+                      <Label htmlFor="r2">Enviornmental irritants</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">
+                        Deviated or perforated (hole) in septum
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="4" id="r4" />
+                      <Label htmlFor="r4">Cocaine use</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="5" id="r5" />
+                      <Label htmlFor="r5">
+                        Foreign objects in nasal passage
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="6" id="r6" />
+                      <Label htmlFor="r6">Nasal injury</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="7" id="r7" />
+                      <Label htmlFor="r7">Previous nasal intubation</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="8" id="r8" />
+                      <Label htmlFor="r8">
+                        Use of supplemental oxygen through nose
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="9" id="r9" />
+                      <Label htmlFor="r9">Nose picking</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="10" id="r10" />
+                      <Label htmlFor="r10">Previous nasal surgery</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="11" id="r11" />
+                      <Label htmlFor="r11">Topical medications</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="mt-4">
+                <h2 className="font-bold">
+                  What home treatment measures have you tried to stop the
+                  nosebleeds?
+                </h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">Sit up straight</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r3" />
+                      <Label htmlFor="r2">Tip head slightly forward</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">
+                        Thumb and forefinger to pinch nose for 10 - 20 minutes
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="4" id="r4" />
+                      <Label htmlFor="r4">Ice pack to nose</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="5" id="r5" />
+                      <Label htmlFor="r5">Other</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="mt-4">
+                <h2 className="font-bold">
+                  Do you take any of the following medications:
+                </h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">Aspirin</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r3" />
+                      <Label htmlFor="r2">Ibuprofen</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">Blood thinners</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="4" id="r4" />
+                      <Label htmlFor="r4">None</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="mt-4">
+                <h2 className="font-bold">
+                  Does your family have a history of bleeding problems?
+                </h2>
+                <div>
+                  <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="1" id="r1" />
+                      <Label htmlFor="r1">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="2" id="r3" />
+                      <Label htmlFor="r2">No</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="3" id="r3" />
+                      <Label htmlFor="r3">Unsure</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <Link href="/dashboard/appointment">
+              <Button className="mt-16">
+                Submit Request
+              </Button>
+              </Link>
+            </div>
+          </>
+        );
+      // Add more cases as needed for additional stages
+      default:
+        return <div>
+          <Image src={img} alt="Nosebleed"/>
+        </div>;
+    }
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <div className="w-full mb-8 flex flex-col items-center">
+        <h1 className="text-3xl font-bold text-center mb-4">
+          Book an Appointment
+        </h1>
+        <div className="w-16 h-1 bg-blue-500"></div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {/* Render different components based on state */}
+      {renderStage()}
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <Progress value={progress} className="w-[500px] h-2.5 mt-4" />
     </main>
-  )
+  );
 }
