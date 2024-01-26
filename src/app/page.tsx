@@ -45,7 +45,7 @@ export default function Home() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   const handleAppointmentClick = () => {
-    setProgress(progress + 10); // Set progress to 20%
+    setProgress(progress + 33.33); // Set progress to 20%
     setState(state + 1); // Move to the next state
   };
 
