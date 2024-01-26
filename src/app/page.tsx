@@ -132,7 +132,7 @@ export default function Home() {
                   <RadioGroup defaultValue="comfortable">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="default" id="r1" />
-                      <Label htmlFor="r1">I don't remember exactly</Label>
+                      <Label htmlFor="r1">I don&apos;t remember exactly</Label>
                     </div>
                   </RadioGroup>
                 </div>
