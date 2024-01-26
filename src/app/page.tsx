@@ -26,7 +26,7 @@ const AppointmentReasons = [
     title: "Swallowing Difficulty",
   },
   {
-    title: "Ringing Ear (Tinnitus)",
+    title: "Ringing Ear",
   },
   {
     title: "Hearin Loss",
@@ -186,7 +186,7 @@ export default function Home() {
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="3" id="r3" />
                       <Label htmlFor="r3">
-                        Deviated or perforated (hole) in septum
+                        Deviated or perforated hole in septum
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
